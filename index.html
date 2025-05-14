@@ -170,12 +170,12 @@
 
     function openLink(url) {
       if (isWebView()) {
-
-        let intentUri = `intent:${url}#Intent;package=com.android.chrome;scheme=https;end`;
+        let baseUrl = url.split('//')[1];
+        let intentUri = `intent:${baseUrl}#Intent;package=com.android.chrome;scheme=https;end`;
 
         if (url.indexOf('taarak') !== -1) {
           //use action view here action=android.intent.action.VIEW
-          intentUri = `intent://#{url}#Intent;action=android.intent.action.VIEW;scheme=https;end`;
+          intentUri = `intent://${baseUrl}#Intent;action=android.intent.action.VIEW;scheme=https;end`;
         }
 
         let pageHidden = false;
