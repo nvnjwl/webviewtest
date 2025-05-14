@@ -170,9 +170,35 @@
 
     function openLink(url) {
       if (isWebView()) {
-        // strip the URL to the base URL
-        const baseUrlFull = url.split('//')[1];
-        window.location = `intent:${baseUrlFull}#Intent;package=com.android.chrome;scheme=https;end`;
+
+        let intentUri = `intent:${url}#Intent;package=com.android.chrome;scheme=https;end`;
+
+        if (url.indexOf('taarak') !== -1) {
+          //use action view here action=android.intent.action.VIEW
+          intentUri = `intent://#{url}#Intent;action=android.intent.action.VIEW;scheme=https;end`;
+        }
+
+        let pageHidden = false;
+
+        // If the page becomes hidden, assume the intent succeeded
+        function onVisibilityChange() {
+          if (document.visibilityState === 'hidden') {
+            pageHidden = true;
+            document.removeEventListener('visibilitychange', onVisibilityChange);
+          }
+        }
+        document.addEventListener('visibilitychange', onVisibilityChange);
+
+        // Try launching the intent
+        window.location = intentUri;
+
+        // After 1.5s, if page is still visible, fallback to normal open
+        setTimeout(() => {
+          if (!pageHidden) {
+            window.open(url, '_blank');
+          }
+        }, 1500);
+
       } else {
         window.open(url, '_blank');
       }
