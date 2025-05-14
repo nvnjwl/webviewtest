@@ -4,9 +4,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MWeb &amp; Web Feed</title>
+  <title>Optimized MWeb Feed</title>
   <style>
-    /* Reset & base */
+    /* Reset */
     * {
       margin: 0;
       padding: 0;
@@ -15,8 +15,8 @@
 
     body {
       font-family: Arial, sans-serif;
-      background-color: #f2f2f2;
-      color: #333;
+      background: #fafafa;
+      color: #222;
     }
 
     a {
@@ -24,39 +24,64 @@
       color: inherit;
     }
 
-    /* Feed container */
+    /* Feed grid */
     #feed {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 16px;
-      padding: 16px;
-      max-width: 1200px;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      padding: 12px;
+      max-width: 600px;
       margin: auto;
     }
 
-    /* Card styles */
+    @media (min-width: 600px) {
+      #feed {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      }
+    }
+
+    /* Card */
     .card {
       background: #fff;
-      border-radius: 8px;
+      border-radius: 10px;
       overflow: hidden;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
       cursor: pointer;
       display: flex;
       flex-direction: column;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
     .card:hover {
-      transform: translateY(-4px);
+      transform: translateY(-3px);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     }
 
-    /* Image wrapper */
-    .card img {
+    /* 16:9 media wrapper */
+    .card-media {
+      position: relative;
       width: 100%;
-      height: auto;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      background: #000;
+    }
+
+    .card-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
       display: block;
-      loading: lazy;
+    }
+
+    /* Illusion of player: subtle dark gradient overlay */
+    .card-media::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.3));
     }
 
     .play-button {
@@ -64,79 +89,77 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      background: rgba(0, 0, 0, 0.6);
-      padding: 12px;
+      background: rgba(255, 255, 255, 0.8);
+      padding: 14px;
       border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       transition: background 0.2s ease;
     }
 
     .card:hover .play-button {
-      background: rgba(255, 255, 255, 0.8);
+      background: rgba(255, 255, 255, 1);
     }
 
     .play-button svg {
-      display: block;
+      width: 24px;
+      height: 24px;
+      fill: #ff4500;
     }
 
-    /* Text content */
+    /* Content */
     .card-content {
-      padding: 12px;
-      flex: 1;
+      padding: 12px 14px;
       display: flex;
       flex-direction: column;
     }
 
     .card-title {
       font-size: 1rem;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       line-height: 1.3;
+      color: #111;
       flex: 1;
     }
 
     .card-desc {
-      font-size: 0.875rem;
-      color: #666;
+      font-size: 0.85rem;
+      color: #555;
+      margin-bottom: 4px;
     }
 
-    @media (hover: none) {
-
-      /* Remove hover effects on touch devices */
-      .card:hover {
-        transform: none;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      }
-
-      .card:hover .play-button {
-        background: rgba(0, 0, 0, 0.6);
-      }
+    .card-footer {
+      font-size: 0.8rem;
+      color: #888;
     }
   </style>
 </head>
 
 <body>
-  <div id="feed">
-    <!-- Cards will be injected here -->
-  </div>
+  <div id="feed"></div>
 
   <script>
-    // Data with real SonyLIV logos; replace with true thumbnails as needed
     const feedItems = [
       {
-        title: 'Taarak Mehta Ka Ooltah Chashmah: Ep4394 – Gokuldham Members Ko Laga Shock',
-        description: 'Watch this episode on SonyLIV.',
-        img: 'https://www.sonyliv.com/static/img/sonyliv-logo.svg',
+        title: 'Taarak Mehta Ka Ooltah Chashmah: Ep4394 – Gokuldham Shock',
+        description: 'Stream now on SonyLIV.',
+        footer: '4:09',
+        img: 'https://images.sonyliv.com/assets/ep4394-thumbnail.jpg',
         url: 'https://www.sonyliv.com/shows/taarak-mehta-ka-ooltah-chashmah-1700000084/gokuldham-members-ko-laga-shock-1090479484?watch=true'
       },
       {
-        title: 'Upcoming – Crystal Palace vs Man City – The Emirates FA Cup',
-        description: 'Catch the trailer on SonyLIV.',
-        img: 'https://www.sonyliv.com/static/img/sonyliv-logo.svg',
+        title: 'Crystal Palace vs Man City – Emirates FA Cup Trailer',
+        description: 'Watch the trailer on SonyLIV.',
+        footer: '4:10',
+        img: 'https://images.slivcdn.com/videoasset_images/manage_file/1000002399/1747045621421809_Facup_final_12may_tv_bg.jpg?w=1349&q=high',
         url: 'https://www.sonyliv.com/trailer/upcoming-crystal-palace-vs-man-city-the-emirates-fa-cup-2024-25-1090479438?watch=true'
       },
       {
-        title: 'Pani – SonyLIV Movie',
-        description: 'Stream the movie on SonyLIV.',
-        img: 'https://www.sonyliv.com/static/img/sonyliv-logo.svg',
+        title: 'Pani – Full Movie',
+        description: 'Available on SonyLIV.',
+        footer: '2:35',
+        img: 'https://images.sonyliv.com/assets/pani-movie-thumb.jpg',
         url: 'https://www.sonyliv.com/movies/pani-1090428925?watch=true'
       }
     ];
@@ -147,7 +170,6 @@
 
     function openLink(url) {
       if (isWebView()) {
-        // Android Chrome intent
         window.location = `intent:${url}#Intent;package=com.android.chrome;scheme=https;end`;
       } else {
         window.open(url, '_blank');
@@ -161,18 +183,18 @@
       card.onclick = () => openLink(item.url);
 
       card.innerHTML = `
-        <div style="position:relative;">
-          <img src="${item.img}" alt="${item.title}" loading="lazy">
+        <div class="card-media">
+          <img src="${item.img}" alt="${item.title}">
           <div class="play-button" aria-label="Play">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"></path></svg>
+            <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>
           </div>
         </div>
         <div class="card-content">
           <h3 class="card-title">${item.title}</h3>
           <p class="card-desc">${item.description}</p>
+          <span class="card-footer">${item.footer}</span>
         </div>
       `;
-
       feedEl.appendChild(card);
     });
   </script>
