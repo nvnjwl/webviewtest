@@ -145,7 +145,7 @@
         title: 'Taarak Mehta Ka Ooltah Chashmah: Ep4394 – Gokuldham Shock',
         description: 'Stream now on SonyLIV.',
         footer: '4:09',
-        img: 'https://images.sonyliv.com/assets/ep4394-thumbnail.jpg',
+        img: 'https://images.slivcdn.com/videoasset_images/manage_file/1000002352/1746876874670952_show_sab_taarakmehta_ep4394_10052025_tv_background.jpg?w=1349&q=high',
         url: 'https://www.sonyliv.com/shows/taarak-mehta-ka-ooltah-chashmah-1700000084/gokuldham-members-ko-laga-shock-1090479484?watch=true'
       },
       {
@@ -159,7 +159,7 @@
         title: 'Pani – Full Movie',
         description: 'Available on SonyLIV.',
         footer: '2:35',
-        img: 'https://images.sonyliv.com/assets/pani-movie-thumb.jpg',
+        img: 'https://images.slivcdn.com/videoasset_images/pani_1_detail_coverbg.jpg?w=1349&q=high',
         url: 'https://www.sonyliv.com/movies/pani-1090428925?watch=true'
       }
     ];
@@ -170,7 +170,9 @@
 
     function openLink(url) {
       if (isWebView()) {
-        window.location = `intent:${url}#Intent;package=com.android.chrome;scheme=https;end`;
+        // strip the URL to the base URL
+        const baseUrlFull = url.split('//')[1];
+        window.location = `intent:${baseUrlFull}#Intent;package=com.android.chrome;scheme=https;end`;
       } else {
         window.open(url, '_blank');
       }
